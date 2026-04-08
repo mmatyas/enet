@@ -113,10 +113,28 @@ endif()
 
 include(GNUInstallDirs)
 install(TARGETS enet
+    EXPORT enetTargets
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/enet
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+install(
+    EXPORT enetTargets
+    FILE enetTargets.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/enet
+)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/enetConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/enetConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/enet
+)
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/enetConfig.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/enet
 )
